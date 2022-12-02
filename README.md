@@ -1,5 +1,3 @@
-# aoc-2022-csharp
-
 <!--- advent_readme_stars table --->
 ## 2022 Results
 
