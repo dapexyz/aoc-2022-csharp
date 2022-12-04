@@ -1,4 +1,5 @@
-﻿using aoc_2022_csharp.Properties;
+﻿using aoc_2022_csharp.Days;
+using aoc_2022_csharp.Properties;
 using System.Reflection;
 
 namespace aoc_2022_csharp
@@ -7,10 +8,18 @@ namespace aoc_2022_csharp
     {
         private 
 
+        static void Main1()
+        {
+            RunDay(new Day04());
+        }
+
         static void Main()
         {
-            var days = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.Namespace!.Equals(typeof(Program).Namespace + ".Days") && t.DeclaringType == null);
-            
+            var days = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.FullName!.StartsWith(typeof(Program).Namespace + ".Days.Day") && t.DeclaringType == null);
+
+            foreach (var day in days)
+                Console.WriteLine(day.FullName);
+
             if(!Convert.ToBoolean(Resources.RunAll))
                 RunDay((Day)Activator.CreateInstance(days.Where(x => int.Parse(x.Name[3..]) == int.Parse(Resources.DayToRun)).First())!);
             else
