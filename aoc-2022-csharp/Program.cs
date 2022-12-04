@@ -6,19 +6,11 @@ namespace aoc_2022_csharp
 {
     internal class Program
     {
-        private 
-
-        static void Main1()
-        {
-            RunDay(new Day04());
-        }
+        private
 
         static void Main()
         {
             var days = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.FullName!.StartsWith(typeof(Program).Namespace + ".Days.Day") && t.DeclaringType == null);
-
-            foreach (var day in days)
-                Console.WriteLine(day.FullName);
 
             if(!Convert.ToBoolean(Resources.RunAll))
                 RunDay((Day)Activator.CreateInstance(days.Where(x => int.Parse(x.Name[3..]) == int.Parse(Resources.DayToRun)).First())!);
