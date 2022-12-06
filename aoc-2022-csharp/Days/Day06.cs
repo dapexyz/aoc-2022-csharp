@@ -16,19 +16,10 @@ namespace aoc_2022_csharp.Days
 
         private int CalculateFirstDistinctPosition(string input, int amount)
         {
-            for (int i = 0; i < input.Length - amount - 1; i++)
-            {
-                string abschnitt = "";
-                for (int j = i; j < i + amount; j++)
-                    abschnitt += input[j];
-
-                if (abschnitt.All(x => abschnitt.IndexOf(x) == abschnitt.LastIndexOf(x)))
-                {
+            foreach(int i in Enumerable.Range(0, input.Length))
+                if (input[i..(i + amount)].ToCharArray().Distinct().Count() == amount)
                     return i + amount;
-                }
-            }
 
-            Debug.Assert(false);
             return 0;
         }
 
