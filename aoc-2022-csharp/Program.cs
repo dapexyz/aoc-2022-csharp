@@ -21,9 +21,6 @@ namespace aoc_2022_csharp
 
         static void RunDay(Day day)
         {
-            int dayNumber = int.Parse(day.GetType().Name[3..]);
-            day.SetInput(File.ReadAllText($"Inputs/{dayNumber}.txt"));
-            Console.WriteLine("Day " + dayNumber);
             Console.WriteLine("Part 1: " + day.PartOne());
             Console.WriteLine("Part 2: " + day.PartTwo());
             Console.WriteLine();
