@@ -78,9 +78,9 @@ namespace aoc_2022_csharp.Days
 
         private bool CheckEdge(int x, int y) => (x == 0 || x == grid.GetLength(0) - 1 || y == 0 || y == grid.GetLength(1) - 1);
 
-        private bool CheckRow(int x, int y) => (GetRow(grid, x)[0..y].All(height => height < grid[x, y]) || GetRow(grid, x)[(y + 1)..].All(height => height < grid[x, y]));
+        private bool CheckRow(int x, int y) => (GetRow(grid, x)[..y].All(height => height < grid[x, y]) || GetRow(grid, x)[(y + 1)..].All(height => height < grid[x, y]));
 
-        private bool CheckColumn(int x, int y) => (GetColumn(grid, y)[0..x].All(height => height < grid[x, y]) || GetColumn(grid, y)[(x + 1)..].All(height => height < grid[x, y]));
+        private bool CheckColumn(int x, int y) => (GetColumn(grid, y)[..x].All(height => height < grid[x, y]) || GetColumn(grid, y)[(x + 1)..].All(height => height < grid[x, y]));
 
         private int[] GetRow(int[,] input, int x) => (from y in Enumerable.Range(0, input.GetLength(0)) select input[x, y]).ToArray();
         private int[] GetColumn(int[,] input, int y) => (from x in Enumerable.Range(0, input.GetLength(1)) select input[x, y]).ToArray();
