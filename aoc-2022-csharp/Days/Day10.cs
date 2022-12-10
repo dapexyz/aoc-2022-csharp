@@ -11,22 +11,23 @@ namespace aoc_2022_csharp.Days
 
         public override dynamic PartOne()
         {
-            return 20 * GetSignalAfterCycle(20).signal + 60 * GetSignalAfterCycle(60).signal + 100 * GetSignalAfterCycle(100).signal + 140 * GetSignalAfterCycle(140).signal + 180 * GetSignalAfterCycle(180).signal + 220 * GetSignalAfterCycle(220).signal;
+            int sum = 0;
+            foreach ((int cycle, int signal) in GetSignals())
+                if (new int[]{20, 60, 100, 140, 180, 220}.Contains(cycle))
+                    sum += cycle * signal;
+
+            return sum;
         }
 
         public override dynamic PartTwo()
         {
             string drawing = Environment.NewLine;
-            bool lastInstruction = false;
 
-            int i = 0;
-            while (!lastInstruction)
+            foreach((int cycle, int signal) in GetSignals())
             {
-                (int signal, bool lastInstruction) signal = GetSignalAfterCycle(i);
-                int position = (i - 1) % 40;
+                int position = (cycle - 1) % 40;
 
-
-                if (Math.Abs(signal.signal - position) < 2)
+                if (Math.Abs(signal - position) < 2)
                     drawing += "#";
                 else
                     drawing += ".";
@@ -35,14 +36,12 @@ namespace aoc_2022_csharp.Days
                 {
                     drawing += Environment.NewLine;
                 }
-                i++;
-                lastInstruction = signal.lastInstruction;
             };
 
             return drawing;
         }
 
-        private (int signal, bool lastInstruction) GetSignalAfterCycle(int cycle)
+        private IEnumerable<(int cycle, int signal)> GetSignals()
         {
             int regValue = 1;
             int currentCycle = 0;
@@ -51,25 +50,23 @@ namespace aoc_2022_csharp.Days
             {
                 string line = input.Split(Environment.NewLine)[i];
                 string[] instruction = line.Split(" ");
-
+                
                 if (instruction[0] == "noop")
                 {
-                    if (++currentCycle == cycle)
-                        return (regValue, (i == input.Split(Environment.NewLine).Length - 1));
+                    currentCycle++;
+                    yield return (currentCycle, regValue);
                 }
                 else
                 {
-                    if (++currentCycle == cycle)
-                        return (regValue, (i == input.Split(Environment.NewLine).Length - 1));
+                    currentCycle++;
+                    yield return (currentCycle, regValue);
 
-                    if (++currentCycle == cycle)
-                        return (regValue, (i == input.Split(Environment.NewLine).Length - 1));
+                    currentCycle++;
+                    yield return (currentCycle, regValue);
 
                     regValue += int.Parse(instruction[1]);
                 }
             }
-
-            return (regValue, false);
         }
 
     }
