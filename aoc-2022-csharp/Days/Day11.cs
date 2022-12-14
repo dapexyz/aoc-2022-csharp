@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace aoc_2022_csharp.Days
 {
     internal class Day11 : Day
     {
-        record Monkey(List<int> items, string operation, int divisableTest, int trueTarget, int falseTarget, long amountOfInspections);
+        record Monkey(List<BigInteger> items, string operation, int divisableTest, int trueTarget, int falseTarget, long amountOfInspections);
         private List<Monkey> monkeys = new();
 
         private void InitMonkeys()
@@ -18,7 +14,7 @@ namespace aoc_2022_csharp.Days
             {
                 string[] monkeySplit = monkeyText.Split(Environment.NewLine);
 
-                List<int> startingItems = (from e in monkeySplit[1].Trim()["Starting items: ".Length..].Split(", ") select int.Parse(e)).ToList();
+                List<BigInteger> startingItems = (from e in monkeySplit[1].Trim()["Starting items: ".Length..].Split(", ") select BigInteger.Parse(e)).ToList();
                 string operation = monkeySplit[2].Trim()["Operation: new = ".Length..];
                 int divisableTest = int.Parse(monkeySplit[3].Trim()["Test: divisible by ".Length..]);
                 int trueTarget = int.Parse(monkeySplit[4].Trim()["If true: throw to monkey ".Length..]);
@@ -27,11 +23,11 @@ namespace aoc_2022_csharp.Days
             }
         }
 
-        private int executeOperation(int oldValue, string operation)
+        private BigInteger executeOperation(BigInteger oldValue, string operation)
         {
             operation = operation.Replace("old", oldValue.ToString());
-            int x1 = int.Parse(operation.Split(" ")[0]);
-            int x2 = int.Parse(operation.Split(" ")[2]);
+            BigInteger x1 = BigInteger.Parse(operation.Split(" ")[0]);
+            BigInteger x2 = BigInteger.Parse(operation.Split(" ")[2]);
             char operatorChar = operation.Split(" ")[1][0];
 
             switch(operatorChar)
@@ -52,16 +48,21 @@ namespace aoc_2022_csharp.Days
         public override dynamic PartOne()
         {
             InitMonkeys();
-            return GetMonkeyBusinessAfterRounds(20);
+            return GetMonkeyBusinessAfterRounds(20, false);
         }
 
         public override dynamic PartTwo()
         {
-            return 0;
+            InitMonkeys();
+            return GetMonkeyBusinessAfterRounds(10000, true);
         }
 
-        private long GetMonkeyBusinessAfterRounds(int rounds)
+        private long GetMonkeyBusinessAfterRounds(int rounds, bool p2)
         {
+            int bigMod = 1;
+            foreach (Monkey m in monkeys)
+                bigMod *= m.divisableTest;
+
             for (int round = 0; round < rounds; round++)
             {
                 for (int i = 0; i < monkeys.Count; i++)
@@ -69,10 +70,13 @@ namespace aoc_2022_csharp.Days
                     Monkey monkey = monkeys[i];
                     foreach (int item in monkey.items)
                     {
-                        int worryLevel = item;
+                        BigInteger worryLevel = item;
                         worryLevel = executeOperation(worryLevel, monkey.operation);
-
-                        worryLevel /= 3;
+                        
+                        if(!p2)
+                            worryLevel /= 3;
+                        else
+                            worryLevel %= bigMod;
 
                         if (worryLevel % monkey.divisableTest == 0)
                             monkeys[monkey.trueTarget].items.Add(worryLevel);
