@@ -61,7 +61,7 @@ namespace aoc_2022_csharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.
+        ///   Looks up a localized string similar to 21.
         /// </summary>
         internal static string DayToRun {
             get {
@@ -70,7 +70,7 @@ namespace aoc_2022_csharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to true.
+        ///   Looks up a localized string similar to false.
         /// </summary>
         internal static string RunAll {
             get {
