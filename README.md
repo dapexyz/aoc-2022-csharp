@@ -20,4 +20,6 @@
 | [Day 15](https://adventofcode.com/2022/day/15) | ⭐ | ⭐ |
 | [Day 18](https://adventofcode.com/2022/day/18) | ⭐ | ⭐ |
 | [Day 20](https://adventofcode.com/2022/day/20) | ⭐ | ⭐ |
+| [Day 21](https://adventofcode.com/2022/day/21) | ⭐ | ⭐ |
+| [Day 23](https://adventofcode.com/2022/day/23) | ⭐ | ⭐ |
 <!--- advent_readme_stars table --->
